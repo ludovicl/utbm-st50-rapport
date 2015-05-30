@@ -1,0 +1,38 @@
+\documentclass[a4paper,12pt]{report} % format a4, taille du texte, type de document
+\usepackage[utf8]{inputenc} % afficher les accents correctement
+\usepackage[T1]{fontenc} % police contenant caractères spéciaux français
+\usepackage[francais]{babel} % langue du texte
+\usepackage[colorlinks=true]{hyperref} % activer les liens hypertextes
+\usepackage{graphicx} % importer les images
+\usepackage{phdthesis}  %templte utilisé
+\usepackage[hcentering,textwidth=150mm,textheight=225mm]{geometry} %marges
+\usepackage[Bjornstrup]{fncychap} %affiche les chapitres differement
+\usepackage{tocloft} %affichage different pour la table des marères
+\usepackage{caption} 
+\usepackage{lipsum}
+
+\lhead{Rapport de stage ST50}
+\lfoot{Ludovic Lardies}
+
+\renewcommand{\cfttoctitlefont}{\center\large\bfseries\MakeUppercase} % change toc title to upper case
+
+\hypersetup{
+  colorlinks,
+  linkcolor=wine-stain,
+  linktoc=all
+}
+
+\definecolor{Darkblue}{rgb}{0,0,0.4}
+\definecolor{wine-stain}{rgb}{0.5,0,0}
+
+\begin{document}
+
+
+
+\tableofcontents
+\input{Chapters/partie1.tex}
+\input{Chapters/partie2.tex}
+
+
+
+\end{document}

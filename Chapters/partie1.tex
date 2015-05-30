@@ -1,0 +1,91 @@
+%!TEX root =/Users/ludovicl/Dropbox/Cours/UTBM/P15/RapportStage/main.tex
+\chapter{Présentation de l'entreprise}
+
+
+Tech4Team est une startup fondée en juillet 2013 par deux entrepreneurs. Elle propose aujourd'hui deux produits majeurs Inventor-e et Arenametrix.
+
+\section{Inventor-e}
+Inventor-e est un logiciel de gestion de planning, de suivi d’états des lieux et de pilotage de maintenance. Il est conçu pour les infrastructures sportives et culturelles multifonctions.
+
+Le logiciel fonctionne sur le principe de client-serveur. L'utilisateur utilise une tablette Android pour faire un état des lieux ou visualiser son planning. Les photos et autres données sont ensuite synchronisées dans une base de données sur un serveur distant. Il est alors possible pour l'utilisateur de visualiser les informations depuis un portail web.
+
+\begin{center}
+\includegraphics[scale=0.7]{images/inventore.png}
+\captionof{figure}{Principe de fonctionnement d'inventor-e}
+\label{inventore}
+\end{center}
+
+D'une manière plus technique l'application est développée pour Android 4.0 ou ultérieur, la base de données utilise PostegreSQL et l'interface web est développée avec le framework Ruby on Rails.
+
+\section{Arenametrix}
+Arenametrix est une solution logicielle, flexible, clé en main et intégrée de Big Data (analyse et exploitation des données billetteries), disponible en SaaS, pour la connaissance et la fidélisation des publics, la prospection ciblée et la mise en place d'une nouvelle politique de tarification
+
+Arenametrix de décompose en trois briques technologiques indépendantes ou combinées : 
+\begin{itemize}
+  \item[\textbullet] Arena-public : Socle e-CRM
+  \item[\textbullet] Arena-prospection : Prospection ciblée
+  \item[\textbullet] Arena-pricing : Tarification dynamique
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.45]{images/arenametrix.png}
+\captionof{figure}{Vision à 360\ensuremath{^\circ}  de Arenametrix}
+\label{arenametrix}
+\end{center}
+
+\subsection{Arena-public}
+Arena-public est le socle e-CRM d’exploitation des données publics.
+
+Il permet :
+\begin{itemize}
+  \item[\textbullet] La centralisation des données publics, B to B et B to C
+  \item[\textbullet] Le nettoyage et enrichissement des données (sexe, âge, lieu de résidence, fréquentation du stade, dépenses merchandising…)
+  \item[\textbullet] La visualisation graphique de la base de données à 360\ensuremath{^\circ}
+  \item[\textbullet] L'analyse mono-variable et bi-variable en croisant des données identitaires et de consommation
+\end{itemize}
+
+\subsection{Arena-prospection}
+Module d’optimisation du démarchage commercial.
+
+Ce module permet :
+\begin{itemize}
+  \item[\textbullet] La sélection d’une liste de contacts
+  \item[\textbullet] Le classement des prospects selon leur probabilité de souscription
+  \item[\textbullet] La gestion interfacée d’une campagne de téléprospection, de mailing et de SMS auprès des prospects
+  \item[\textbullet] L'analyse des retours : réaction au démarchage, taux de conversion et intégration à la priorisation
+\end{itemize}
+
+\subsection{Arena-pricing}
+Module de yield management.
+
+Ce module permet :
+\begin{itemize}
+  \item[\textbullet] La création de typologies de publics par segmentation et profilage
+  \item[\textbullet] La prévision de la demande en billets pour un événement
+  \item[\textbullet] Recommandations tarifaires en fonction de la date et de la catégorie
+  \item[\textbullet] La gestion des flux par le prix, en transparence avec le client final
+\end{itemize}
+
+\section{Fonctionnement de l'entreprise et répartition des tâches}
+Durant la majeure partie de mon stage l'équipe se composé de six stagiaires, cinq en développement et un commercial, un développeur expérimenté en cdi et les deux fondateurs. \\
+
+Sur Arenametrix : 
+\begin{itemize}
+  \item[\textbullet] Un stagiaire s'occupait du front-end et de l'affichage des données
+  \item[\textbullet] Un stagiaire s'occupait de la partie analyse de données
+  \item[\textbullet] Un stagiaire s'occupait du scoring
+  \item[\textbullet] Le développeur en cdi validait nos choix techniques sur le produit et jouait également le rôle d'administrateur système
+  \item[\textbullet]Moi, je m'occupais du back-end et de l'importation des données
+\end{itemize} \
+
+Sur Inventor-e : 
+\begin{itemize}
+  \item[\textbullet] Un stagiaire s'occupait de l'application Android
+  \item[\textbullet] Le développeur en cdi s'occupait de la base de données et de l'interface web
+\end{itemize}
+
+Les deux fondateurs s'occupaient des relations clients avec le commercial et nous attribuaient des tâches pour améliorer et faire évoluer les produits.
+
+La gestion de projets se fait avec l'outil open source Redmine. Pour la gestion du code source, nous utilisons Git et la plateforme Gitlab.
+
+
