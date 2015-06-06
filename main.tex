@@ -10,8 +10,11 @@
 \usepackage{tocloft} %affichage different pour la table des marères
 \usepackage{caption} 
 \usepackage{lipsum}
+\usepackage{listings}
+\usepackage{color}
 
-\lhead{Rapport de stage ST50}
+
+%\rhead{Rapport de stage ST50}
 \lfoot{Ludovic Lardies}
 
 \renewcommand{\cfttoctitlefont}{\center\large\bfseries\MakeUppercase} % change toc title to upper case
@@ -22,17 +25,36 @@
   linktoc=all
 }
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinestyle{custompython}{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
 \definecolor{Darkblue}{rgb}{0,0,0.4}
 \definecolor{wine-stain}{rgb}{0.5,0,0}
 
 \begin{document}
 
 
-
 \tableofcontents
 \input{Chapters/partie1.tex}
 \input{Chapters/partie2.tex}
-
 
 
 \end{document}

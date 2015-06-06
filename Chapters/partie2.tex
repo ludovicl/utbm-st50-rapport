@@ -66,3 +66,56 @@ Une organisation est caractérisée par plusieurs choses :
 \end{center}
 
 Toutes les données rentrées par l'utilisateur ainsi que les comptes utilisateurs sont inscrites dans une base de données PostgreSQL. Pour faire les insertions et les sélections en base de données, j'utilise l'ORM SQLAlchemy.
+
+\section{Back-end de l'importation des données de billéteries}
+\subsection{Les fichiers CSV}
+La majorité des des clients nous fournissent des fichiers CSV. Ces fichiers sont extraits à partir du logiciel de billéterie utilisé par le client.
+
+Comme le montre l'image \ref{eg_csv} page \pageref{eg_csv} les données nous permette de récuperer le nom de l'évenement (ici Les Parapluies de Cherbourg), la date de l'événement, le prix ainsi que la date d'achat du ticket,...
+
+En fonction des données de billéteries que nous récupérons nous pouvons églement récupérer le mail, nom, prénom, adresse des utilisateur. Cela nous permet d'agrémenter notre logiciel de CRM. %TODO : Parler de arenapublic
+
+\begin{center}
+\includegraphics[scale=0.45]{Images/eg_csv1}
+\captionof{figure}{Example de fichier CSV fournis par le théâtre du Chatelet}
+\label{eg_csv}
+\end{center}
+
+\subsubsection{Parsing des données en Python}
+Pour parser les fichiers CSV j'ai utilise le module natif CSV. 
+
+
+\lstset{style=custompython}
+\begin{lstlisting}
+with open(p_path_file, 'r', encoding=charset['encoding']) as f:
+
+	#read csv file with csv module
+	dict_csv = csv.DictReader(f, delimiter=';', quoting=csv.QUOTE_ALL)
+	
+	#use strategy design pattern with Secutix object
+	secutix = ParsingStrategyContext(Secutix())	
+	
+	#parse dictionay with organization name, event date, export date
+	secutix.parse_file(dict_csv, o_name, e_date, export_date)
+
+#ask object to send data to the ruby. e_type is event type 
+reason = secutix.upload_data(e_type)
+return reason\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
