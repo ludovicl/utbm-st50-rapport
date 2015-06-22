@@ -76,18 +76,19 @@ Comme le montre l'image \ref{eg_csv} page \pageref{eg_csv} les données nous per
 En fonction des données de billéteries que nous récupérons nous pouvons églement récupérer le mail, nom, prénom, adresse des utilisateur. Cela nous permet d'agrémenter notre logiciel de CRM. %TODO : Parler de arenapublic
 
 \begin{center}
-\includegraphics[scale=0.45]{Images/eg_csv1}
+\includegraphics[scale=0.42]{Images/eg_csv1.png}
 \captionof{figure}{Example de fichier CSV fournis par le théâtre du Chatelet}
 \label{eg_csv}
 \end{center}
 
 \subsubsection{Parsing des données en Python}
-Pour parser les fichiers CSV j'ai utilise le module natif CSV. 
+Pour parser les fichiers CSV j'utilise le module natif CSV.
+\\
 
 
 \lstset{style=custompython}
 \begin{lstlisting}
-with open(p_path_file, 'r', encoding=charset['encoding']) as f:
+with open(file_path, 'r', encoding=charset['encoding']) as f:
 
 	#read csv file with csv module
 	dict_csv = csv.DictReader(f, delimiter=';', quoting=csv.QUOTE_ALL)
@@ -95,12 +96,35 @@ with open(p_path_file, 'r', encoding=charset['encoding']) as f:
 	#use strategy design pattern with Secutix object
 	secutix = ParsingStrategyContext(Secutix())	
 	
-	#parse dictionay with organization name, event date, export date
+	#parse dictionay and send organization name, event date, export date
 	secutix.parse_file(dict_csv, o_name, e_date, export_date)
 
 #ask object to send data to the ruby. e_type is event type 
 reason = secutix.upload_data(e_type)
 return reason\end{lstlisting}
+\captionof{lstlisting}{Code analysant le fichier CSV}
+
+
+\leavevmode \\\\ 
+La fonction open permet d'ouvrir le fichier $file\_path$, ensuite je récupère le dictionnaire associé à au fichier CSV avec $csv.DictReader$. La méthode $parse\_file$ permet de générer le dictionnaire avec les informations des tickets/achats comme le montre la figure \ref{dict_csv} page \pageref{dict_csv}, nous obtenons finalement une liste de dictionnaire ou chaque entrée de la liste est une ligne du fichier CSV. 
+
+\begin{center}
+\includegraphics[scale=0.45]{Images/dict_tickets.png}
+\captionof{figure}{Dictionnaire récupéré pour une ligne du fichier CSV}
+\label{dict_csv}
+\end{center}
+
+
+D'un point de vue architecture de l'application j'utilise le design pattern strategy. Ce design pattern est utile lors qu'un objet peut effectuer plusieurs traitements différents, dépendant d'une variable ou d'un état.
+
+L'implémentation de ce design pattern peut être visualisé sur le diagramme figure \ref{stategy_pattern} page \pageref{dict_csv}.
+
+\begin{center}
+\includegraphics[scale=0.75]{Images/StrategyPattern.png}
+\captionof{figure}{Design pattern strategy}
+\label{stategy_pattern}
+\end{center}
+
 
 
 
