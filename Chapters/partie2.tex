@@ -2,13 +2,15 @@
 \chapter{Mise en situation et description des activités du stagiaire}
 
 
-\section{Création d'une front pour l'importation des données de billetteries clients}
+\section{Importation manuel de données billetteries des clients dans ArenaPricing}
 
-L'une de mes premières taches en arrivant dans l'entreprise est de créer un front-end permettant à Tech4Team et à certains clients de facilement insérer en base de données un fichier CSV\footnote{Comma-separated values, connu sous le sigle CSV, est un format informatique ouvert représentant des données tabulaires sous forme de valeurs séparées par des virgules.} contenant des données billetteries.
+L'une de mes premières taches en arrivant dans l'entreprise est de créer un logiciel permettant à Tech4Team et à certains clients de facilement insérer dans notre base de données un fichier CSV\footnote{Comma-separated values, connu sous le sigle CSV, est un format informatique ouvert représentant des données tabulaires sous forme de valeurs séparées par des virgules.} contenant des données billetteries. A tèrme le but est de d'intégrer le logiciel les API des logiciels de billetterie des clients.
 
 \subsection{Le besoin}
 
-Le besoin peut donc être visualisé par le schéma \ref{interface_upload} page \pageref{interface_upload}. Tech4Team ou un client veut insérer des nouveaux tickets dans la base de données Arenapricing. Il sélectionne alors un fichier CSV à la main depuis l'interface web, spécifie le type de logiciel billetterie ayant permis de générer le fichier et clique sur envoyer. Le site analyse le fichier, extrait les informations importantes et les inserts en base de donnes. Toute la partie d'analyse et d'insertion doit être invisible du point de vue de l'utilisateur. 
+Le besoin peut donc être visualisé par le schéma \ref{interface_upload} page \pageref{interface_upload}. Tech4Team ou un client veut insérer des nouveaux tickets dans la base de données Arenapricing. Il sélectionne alors un fichier CSV à la main depuis l'interface web, le site analyse le fichier, extrait les informations importantes et les inserts en base de donnes. Toute la partie d'analyse et d'insertion doit être invisible du point de vue de l'utilisateur.
+\\ \\
+Le logiciel d'upload doit également être capable de s'interfacer avec des API.
 
 \begin{center}
 \includegraphics[scale=0.6]{images/datafit.png}
@@ -17,68 +19,25 @@ Le besoin peut donc être visualisé par le schéma \ref{interface_upload} page 
 \end{center}
 
 
-\subsection{Le front d'importation de manières technique}
+\subsection{Première réalisation du front d'importation}
 
 Pour réaliser ce site web d'importation nous avons décidé après discussion avec le lead developper d'utiliser le langage Python. Ce langage permet de développer rapidement est dispose d'énormément de modules s'ajoutant aux fonctions de base. Il est ainsi aisé de parser un fichier CSV. J'ai également utilisé le microframework Flask pour créer les pages web en elle même et servir de serveur web. Pour le design du site, j'ai utilisé le framework Zurb Foundation afin d'avoir une identité visuelle cohérente. 
 
 \begin{center}
-\includegraphics[scale=0.7]{images/datafit2.png}
+\includegraphics[scale=0.6]{images/datafit2.png}
 \captionof{figure}{Téchnologies utilisées pour le front}
 \label{interface_upload_tech}
 \end{center}
 
-\subsection{Résultats obtenus}
+\subsubsection{L'interface homme machine obtenu}
 
-Comme nous pouvons le voir sur l'impression d'écran \ref{front_upload} page \pageref{front_upload} l'interface est simple et permet à l'utilisateur de faire l'essentiel, c'est-à-dire envoyer sont fichier csv préalablement sélectionné.
+Comme nous pouvons le voir sur l'impression d'écran \ref{front_upload} page \pageref{front_upload} l'interface est ermet à l'utilisateur d'envoyer un fichier CSV préalablement sélectionné.
 En plus du nom de l'organisation, nous affichons le type d'événement correspondant au fichier envoyé ainsi que le logiciel de billetterie d'où provient l'export. \\
-
-\subsubsection{Upload d'un fichier}
-
-L'impression d'écran \ref{front_orga} page \pageref{front_orga} permet de visualiser l'interface de création d'une nouvelle organisation. Il est en effet possible pour l'utilisateur de créer une nouvelle organisation en choisissant les données suivantes.
 
 \begin{center}
 \includegraphics[scale=0.6]{images/front1.png}
 \captionof{figure}{Front d'upload d'un fichier CSV}
 \label{front_upload}
-\end{center}
-
-
-\subsubsection{Création d'une organisation}
-
-Comme le montre l'impression d'écran \ref{front_orga} page \pageref{front_orga} la seconde page de ce site d'upload permet à l'utilisateur de créer une nouvelle organisation. 
-
-Une organisation est caractérisée par plusieurs choses : 
-
-\begin{itemize}
-	\item[\textbullet] Le type d'événement organisé par l'organisation :
-	\begin{itemize}
-  		\item FixedCapacity : c'est à dire que la placement est fixe est indiqué sur le ticket, c'est le cas pour les matchs de foot où les pièces théâtres.
-		\item FreeCapacity : c'est-à-dire que le placement est libre, l'utilisateur n'a pas de place définie sur son ticket, c'est les marathons et les salons.
-	\end{itemize}
-	\item[\textbullet] Le nom du logiciel de billetterie qu'utilise l'organisation (DataSport, Weezevent, Orange,...)
-	\item[\textbullet] Le nom de l'organisation, qui sera ensuite affiché sur le site de visualisation des ventes de tickets.
-\end{itemize}
-
-\begin{center}
-\includegraphics[scale=0.55]{images/front2.png}
-\captionof{figure}{Front de création d'une organisation}
-\label{front_orga}
-\end{center}
-
-Toutes les données rentrées par l'utilisateur ainsi que les comptes utilisateurs sont inscrites dans une base de données PostgreSQL. Pour faire les insertions et les sélections en base de données, j'utilise l'ORM SQLAlchemy.
-
-\section{Back-end de l'importation des données de billéteries}
-\subsection{Les fichiers CSV}
-La majorité des des clients nous fournissent des fichiers CSV. Ces fichiers sont extraits à partir du logiciel de billéterie utilisé par le client.
-
-Comme le montre l'image \ref{eg_csv} page \pageref{eg_csv} les données nous permette de récuperer le nom de l'évenement (ici Les Parapluies de Cherbourg), la date de l'événement, le prix ainsi que la date d'achat du ticket,...
-
-En fonction des données de billéteries que nous récupérons nous pouvons églement récupérer le mail, nom, prénom, adresse des utilisateur. Cela nous permet d'agrémenter notre logiciel de CRM. %TODO : Parler de arenapublic
-
-\begin{center}
-\includegraphics[scale=0.42]{Images/eg_csv1.png}
-\captionof{figure}{Example de fichier CSV fournis par le théâtre du Chatelet}
-\label{eg_csv}
 \end{center}
 
 \subsubsection{Parsing des données en Python}
@@ -104,8 +63,7 @@ reason = secutix.upload_data(e_type)
 return reason\end{lstlisting}
 \captionof{lstlisting}{Code analysant le fichier CSV}
 
-
-\leavevmode \\\\ 
+\leavevmode \\
 La fonction open permet d'ouvrir le fichier $file\_path$, ensuite je récupère le dictionnaire associé à au fichier CSV avec $csv.DictReader$. La méthode $parse\_file$ permet de générer le dictionnaire avec les informations des tickets/achats comme le montre la figure \ref{dict_csv} page \pageref{dict_csv}, nous obtenons finalement une liste de dictionnaire ou chaque entrée de la liste est une ligne du fichier CSV. 
 
 \begin{center}
@@ -126,6 +84,70 @@ L'implémentation de ce design pattern peut être visualisé sur le diagramme fi
 \end{center}
 
 
+
+\subsubsection{Problèmatique posée par ce logiciel}
+Après avoir testé le logiciel d'importation avec de nombreux clients il nous apparait que les fichiers fournis ne sont pas génériques. 
+Les noms des colonnes ne sont pas les même en fonction des exports alors que le logiciel de billéterie est indentique et dans certaines cas le changement apparait pour un même client d'une saison à l'autre. 
+On se rend donc rapidement compte que nous ne pouvons pas créer un script unique par logiciel de billetterie.
+
+\subsection{Deuxième itération pour le logiciel d'import des fichiers}
+Nous décidons de repenser notre logiciel pour que le client désirant envoyer un fichier CSV puisse spécifier sur l'interface les champs qu'il souhaite importer.
+
+Comme le montre l'image \ref{draft_front_import2} page \pageref{draft_front_import2} du premier draft que j'ai réalisé, le client doit maintenant faire un travail d'association entre les champs présents dans le fichier CSV leur correspondance réel. 
+
+\begin{center}
+\includegraphics[scale=0.55]{images/front3.png}
+\captionof{figure}{Premier draft du logiciel d'importation 2.0}
+\label{draft_front_import2}
+\end{center}
+
+
+\subsubsection{Création de l'IHM}
+Pour réaliser l'interface d'upload j'ai utilisé le framework Ruby on rails afin pouvoir intégrer facilement la page d'upload au reste du site.
+
+\begin{center}
+\includegraphics[scale=0.37]{images/final_front2.png}
+\captionof{figure}{Logiciel d'importation des clients}
+\label{final_front_import2}
+\end{center}
+
+J'obtient finalement le front-end \ref{final_front_import2} page \pageref{final_front_import2}, comme nous pouvons le voir avec le fichier CSV de test les champs sont mapés ensemble. Si la donné n'est pas présente une insertion vide se fait en base de données. Les champs marqué avec une étoile sont indispensable. Certains champs comme le nom de l'événement et la date peuvent être inscrit à la main si ils ne sont pas fournis dans le fichier CSV.
+
+
+\subsubsection{L'importation des fichiers CSV}
+
+Afin d'importer les données dans le loficiel de billéterie j'utilise l'ORM ActiveRecord.
+
+\lstset{style=customruby}
+\begin{lstlisting}
+begin
+  country = Pricing::Country.find_by!(name: customer_country_to_ins)
+rescue ActiveRecord::RecordNotFound 
+  country = Pricing::Country.new(name: customer_country_to_ins)
+end
+country.save
+begin
+  department = Pricing::Department.find_by!(name: customer_zip_to_ins, country: country)
+rescue ActiveRecord::RecordNotFound
+  department = Pricing::Department.new(name: customer_zip_to_ins,  country: country)
+end
+department.save
+begin
+  city = Pricing::City.find_by!(name: customer_city_to_ins, department: department)
+rescue ActiveRecord::RecordNotFound
+  city = Pricing::City.new(name: customer_city_to_ins,  department: department)
+end
+city.save\end{lstlisting}
+\captionof{lstlisting}{Exemple de code insérant une adresse}
+\leavevmode 
+
+Avant d'insérer une donnée je vérifie si elle si elle est présente, si ce n'est pas le cas je rescue l'exception et j'insère la donnée. 
+L'ORM ActiveRecord permet de s'astreindre des contrainte habituels du SQL, lorsque je fais coutry: country lors d'une intertion de department l'ORM comprend qu'il doit lier country comme clé étrangère de department.
+
+La majorité des des clients nous fournissent des fichiers CSV. Ces fichiers sont extraits à partir du logiciel de billéterie utilisé par le client.
+
+
+\subsection{Les API des logiciels billéteries}
 
 
 

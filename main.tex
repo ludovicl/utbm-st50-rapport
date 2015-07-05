@@ -19,6 +19,8 @@
 \lfoot{\textbf{UTBM ST50}}
 \cfoot{}
 
+\setcounter{secnumdepth}{3}
+
 \renewcommand{\cfttoctitlefont}{\center\large\bfseries\MakeUppercase} % change toc title to upper case
 
 \hypersetup{
@@ -33,6 +35,23 @@
 
 \lstdefinestyle{custompython}{frame=tb,
   language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\lstdefinestyle{customruby}{frame=tb,
+  language=Ruby,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
