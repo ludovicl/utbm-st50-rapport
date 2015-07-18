@@ -12,6 +12,8 @@
 \usepackage{lipsum}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{lscape}
+
 
 \cfoot{\thepage}
 
@@ -70,16 +72,20 @@
 \definecolor{Darkblue}{rgb}{0,0,0.4}
 \definecolor{wine-stain}{rgb}{0.5,0,0}
 
-
 \begin{document}
 
-
 \tableofcontents
+
 \input{Chapters/partie1.tex}
 \input{Chapters/partie2.tex}
 \input{Chapters/partie2-2.tex}
 
+\appendix 
+\input{Appendices/AppendixA.tex}
+
 \bibliographystyle{plain}
 \bibliography{main}
+
+
 
 \end{document}

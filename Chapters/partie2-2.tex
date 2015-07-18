@@ -60,6 +60,7 @@ Tech4Team propose ainsi deux offres de scoring différentes :
   \item[\textbullet] Scoring sur l'achat : pour les clients ayant des données dans ArenaPricing  \end{itemize} \
 
 \subsection{Enrichissement des données}
+\subsubsection{Détermination du sexe}
 
 Lors de l'agrégation des données de ArenaPricing dans ArenaPublic en plus de faire les calcules servant aux statisticiens, j'ai enrichies les données disponibles afin d'offrir plus de possibilité au statisticiens.
 \\ \\
@@ -79,10 +80,27 @@ u'female'
 >>> d.get_gender(u"Pauley") # should be androgynous
 u'andy'\end{lstlisting}
 \captionof{lstlisting}{Exemple d'utilisation de SexMachine}
-
+\leavevmode \\
 Le problème avec le module officiel de SexMachine repertorié sur pypi est qu'il est compatible uniquement avec la version 2.7 de Python. Hors nous utilisons Python 3.X pour l'ensemble de nos logiciels et scripts Python. 
 
 J'ai donc modifié SexMachine pour le rendre compatible avec Python 3.X. Le code source de la version modifié est disponible sur mon repository Github : \href{https://github.com/ludovicl/sexmachine}{https://github.com/ludovicl/sexmachine}.
 
-\subsection{Calcul de la distance}
+\subsubsection{Calcul de la distance}
+
+Pour enrichir les données des clients nous calculons la distance entre l'adresse de l'acheteur et l'adresse de l'infrastructure où a lieux l'événement.
+Pour faire cela, j'utilise le module geocoder qui permet de wrapper différents sites de géocoding.
+\\ \\
+Après plusieurs tests j'utilise l'API de tomtom car elle me donne les meilleurs résultats pour la France et n'a pas de limite d'utilisation.
+
+\lstset{style=custompython}
+\begin{lstlisting}
+>>> import geocoder
+>>> location_customer = geocoder.tomtom('Paris')
+>>> location_facility = geocoder.tomtom('12 Rue Thierry Mieg, Belfort')
+>>> geocoder.distance(location_customer, location_facility)
+359.0865720640995
+\end{lstlisting}
+\captionof{lstlisting}{Exemple d'utilisation de geocoder}
+\leavevmode \\
+
 
