@@ -147,14 +147,32 @@ L'ORM ActiveRecord permet de s'astreindre des contrainte habituels du SQL, lorsq
 La majorité des des clients nous fournissent des fichiers CSV. Ces fichiers sont extraits à partir du logiciel de billéterie utilisé par le client.
 
 
-\subsection{Les API des logiciels billéteries}
+\subsection{Les API des logiciels billetteries}
+Différentes approches pour importer les données sont possibles : 
+\begin{itemize}
+  \item[\textbullet] Le clients nous donne le login et mot de passe de son logiciel billetterie : nous faisons l'extraction d'un fichier CSV et nous l'importons à la main dans la base de données. 
+  \item[\textbullet] Le client envoie sont fichier CSV par mail : nous l'importons à la main dans la base de données.
+  \item[\textbullet] Le client dépose son fichier CSV sur un serveur FTP : un script python est chargé de régulièrement scanner ce serveur FTP est importer les données si il a un changement.
+  \item[\textbullet] La société logiciel billetterie nous donne une clé d'API, ainsi avec le mot de passe et login du client nous pouvons accèder au données en se connectant directement à la base de données. C'est l'idéal pour nous, cela nous permet d'automatiser les imports.
+\end{itemize}
 
+Actuellement nous avons accès aux API des billetteries WeezEvent et Njuko. 
 
+Pour récupérer les données des API j'utilise le module request qui permet de faire des requètes get.
 
+Ainsi la requête suivante me permet de récupérer les événements d'une organization :
 
-
-
-
+\lstset{style=custompython}
+\begin{lstlisting}
+json_events = requests.get("https://api.weezevent.com/events",
+                            params={'api_key': API_KEY,
+                                    'access_token': token,
+                                    'include_closed': True}
+                          )
+event = json_events.json()['events'].pop()
+\end{lstlisting}
+\captionof{lstlisting}{Récupération des événements}
+\leavevmode \
 
 
 
