@@ -13,7 +13,8 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{lscape}
-
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
 
 \cfoot{\thepage}
 
@@ -76,9 +77,11 @@
 
 \tableofcontents
 
+\input{Chapters/intro.tex}
 \input{Chapters/partie1.tex}
 \input{Chapters/partie2.tex}
 \input{Chapters/partie2-2.tex}
+\input{Chapters/partie3.tex}
 
 \appendix 
 \input{Appendices/AppendixA.tex}

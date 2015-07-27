@@ -1,0 +1,26 @@
+@startuml
+
+actor Client
+
+Client -> WebInterface: Demande synchronisation des \n données ArenaPricing
+WebInterface -> DataProc: Synchronisation données
+DataProc -> DataProc: Aggregation et enrichissement \n  des données d'ArenaPricing
+
+database ArenaPublic
+
+DataProc -> ArenaPublic: Enregistrement des \n données ArenaPublic
+
+DataProc --> WebInterface : Process terminée
+
+WebInterface -> Client : "Vos données sont disponibles dans ArenaPublic"
+
+Client -> WebInterface : Selection du scoring
+WebInterface -> ArenaPublic : Récupération des données à scorer : D
+WebInterface <-- ArenaPublic : D
+
+WebInterface -> LogicielScoring : Scoring des données D
+
+WebInterface <-- LogicielScoring : Affichage du résultat du scoring
+
+@enduml
+	

@@ -57,7 +57,8 @@ Tech4Team propose ainsi deux offres de scoring différentes :
 
 \begin{itemize}
   \item[\textbullet] Scoring sur le réabonnement : pour les clients nous fournissants des données abonnées. 
-  \item[\textbullet] Scoring sur l'achat : pour les clients ayant des données dans ArenaPricing  \end{itemize} \
+  \item[\textbullet] Scoring sur l'achat : pour les clients ayant des données dans ArenaPricing  
+\end{itemize} 
 
 \subsection{Enrichissement des données}
 \subsubsection{Détermination du sexe}
@@ -102,5 +103,41 @@ Après plusieurs tests j'utilise l'API de tomtom car elle me donne les meilleurs
 \end{lstlisting}
 \captionof{lstlisting}{Exemple d'utilisation de geocoder}
 \leavevmode \\
+
+\subsection{Implémentation de bout en bout}
+Pour faire communiquer nos applications de bout en bout nous utilisons \textbf{MessagePack} : il s'agit d'un format de sérialisation binaire qui permet d'échanger des données comme en JSON.
+
+Ainsi, comme le montre le diagramme \ref{scoring} page \pageref{scoring} pour le scoring : 
+
+\begin{itemize}
+  \item[\textbullet] Le client demande la synchronization de sa base de données ticket ArenaPricing en cliquant sur un bouton
+  \item[\textbullet] L'interface (\textbf{Ruby on Rails}) ping une URL d'écoute qui est lancé en Flask depuis DataProc
+  \item[\textbullet] \textbf{DataProc} recupère les données \textbf{d'ArenaPricing}, les aggréges et les enrichie
+  \item[\textbullet] \textbf{DataProc} enregistre les nouvelles données dans les bases de données \textbf{PostegreSQL} et \textbf{Riak} d'ArenaPublic
+  \item[\textbullet] Le client est notifié que les données sont maintenant dans \textbf{ArenaPublic}
+  \item[\textbullet] Le client sélectionne les données qu'il veut \textbf{scorrer}
+  \item[\textbullet] Les données sont récupérées dans la base de données
+  \item[\textbullet] Les données sont envoyées au \textbf{logiciel de scoring} écris en \textbf{Python}. Le logiciel de scoring écoute sur une URL grace a un instance lancé en \textbf{Flask}
+  \item[\textbullet] Le logiciel de scoring retourne les données à la \textbf{WebInterface}
+  \item[\textbullet] La WebInterface unpack le MesaagePack et afiche les données associès sous formes de graphiques. 
+ 
+
+\end{itemize} 
+
+\begin{center}
+\includegraphics[scale=0.52]{images/scoring.png}
+\captionof{figure}{Diagramme de séquence du scoring }
+\label{scoring}
+\end{center}
+
+
+\section{Accueil et encadrement de stagiaires}
+Début juin de nombreux stagiaire ont été recrutés, ces stagiaires étant en première années de l'ETNA je les ai donc managés et encadré d'un point de vue technique :
+\begin{itemize}
+	\item[\textbullet] J'ai notamment eu sous ma responsabilité direct un stagiaire back-end qui a travaillé sur du Python et qui a fait la partie récupération des données éxogénes comme la météo et le scrapping de certains sites. 
+	\item[\textbullet] Un autre stagiaire était chargé de faire le front-end de ArenaPublic, j'ai donc direcemnt travaillé avec lui car je m'occupé de la partie Python de ce projet. Je l'ai également aidé pour les requetes SQL a éffectuer.
+\end{itemize}
+
+  
 
 

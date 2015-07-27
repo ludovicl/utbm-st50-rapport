@@ -1,5 +1,9 @@
 %!TEX root =/Users/ludovicl/Dropbox/Cours/UTBM/P15/RapportStage/main.tex
 \chapter{Mise en situation et description des activités du stagiaire}
+Lors des discutions avec les fondateurs pendant l'entretien d'embauche je savais que j'allais travaillé sur les technologies Ruby et Python. Le sujet était donc de travailler avec le CTO sur la base de données et de coder le back-end de l'importation de données billetteries.
+\\ \\
+
+A mon arrivé l'architecture d'une base de données était déjà réalisé. Mais elle n'était pas utilisé et encore moins remplis. J'ai donc du rapidement l'adapter en fonction des premieres données billéteries que j'ai reçu et que je devais insérrer. Plusieurs stagiaires étaient passé sur la base de données auparavant, certaines tables était recondante (parfois en français et en anglais), d'autes ne contenaient pas de de clé étrangère (juste l'id d'une autre table). J'ai donc au fur et à mesure corriger tout ça. 
 
 
 \section{Importation manuel de données billetteries des clients dans ArenaPricing}
@@ -89,6 +93,9 @@ L'implémentation de ce design pattern peut être visualisé sur le diagramme fi
 Après avoir testé le logiciel d'importation avec de nombreux clients il nous apparait que les fichiers fournis ne sont pas génériques. 
 Les noms des colonnes ne sont pas les même en fonction des exports alors que le logiciel de billéterie est indentique et dans certaines cas le changement apparait pour un même client d'une saison à l'autre. 
 On se rend donc rapidement compte que nous ne pouvons pas créer un script unique par logiciel de billetterie.
+\\ \\
+La partie front en Flask n'est acutelelment plus utilisé mais le python qui permet de parser les données et utilisé pour les clients qui n'ont pas d'API et qui uploadent donc des fichier CSV sur un serveur FTP. 
+
 
 \subsection{Deuxième itération pour le logiciel d'import des fichiers}
 Nous décidons de repenser notre logiciel pour que le client désirant envoyer un fichier CSV puisse spécifier sur l'interface les champs qu'il souhaite importer.
@@ -160,7 +167,7 @@ Actuellement nous avons accès aux API des billetteries WeezEvent et Njuko.
 
 Pour récupérer les données des API j'utilise le module request qui permet de faire des requètes get.
 
-Ainsi la requête suivante me permet de récupérer les événements d'une organization :
+Ainsi la requête suivante me permet de récupérer les événements d'une organisation :
 
 \lstset{style=custompython}
 \begin{lstlisting}
@@ -171,15 +178,27 @@ json_events = requests.get("https://api.weezevent.com/events",
                           )
 event = json_events.json()['events'].pop()
 \end{lstlisting}
-\captionof{lstlisting}{Récupération des événements}
+\captionof{lstlisting}{Récupération des événements sur l'API de weezevent}
 \leavevmode \
 
+A la fin de mon stage nous avions accès a trois API de logiciel de billéteries : 
+\begin{itemize}
+  \item[\textbullet] WeezEvent pour les évenemnts :
+  \begin{itemize}
+	\item Mondial du tatouage : un salon annuel pour les tatoueurs du monde entier
+	\item File7 : Une salle de concert en région parisienne. 
+	\item Rhum Fest : Un événement et une expostion sur le thème de rhum
+  \end{itemize}
+  \item[\textbullet] Njuko pour les évenemnts :
+  \begin{itemize}
+  	\item Marathon de Paris
+  \end{itemize}
+
+\end{itemize}
+
+\subsection{La base de données en elle même}
+L'architecture de la base de données ArenaPricing peut être visualisé sur la figure \ref{arenapublic-1} de l'annexe page \pageref{arenapublic-1}.
 
 
 
-
-
-
-
-
-
+		
