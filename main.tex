@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{lscape}
+\usepackage{pdfpages}
 \usepackage[scaled]{helvet}
 \renewcommand\familydefault{\sfdefault} 
 \setlength\parindent{0pt}
@@ -75,7 +76,7 @@
 \definecolor{wine-stain}{rgb}{0.5,0,0}
 
 \begin{document}
-
+\includepdf[fitpaper=true, pages=-]{couv.pdf}
 \tableofcontents
 
 \input{Chapters/intro.tex}
@@ -90,7 +91,7 @@
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{biblio}
-
+\includepdf[fitpaper=true, pages=-]{end.pdf}
 
 
 \end{document}

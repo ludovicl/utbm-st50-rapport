@@ -1,7 +1,6 @@
 *.log
 *.aux
 *.toc
-*.pdf
 *.out
 .texpadtmp/
 .main.lb
