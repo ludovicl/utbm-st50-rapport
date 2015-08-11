@@ -1,18 +1,19 @@
 %!TEX root =/Users/ludovicl/Dropbox/Cours/UTBM/P15/RapportStage/main.tex
-\chapter{Mise en situation et description des activités du stagiaire}
-Lors des discutions avec les fondateurs pendant l'entretien d'embauche je savais que j'allais travaillé sur les technologies Ruby et Python. Le sujet était donc de travailler avec le CTO sur la base de données et de coder le back-end de l'importation de données billetteries.
+\chapter{Mise en situation et activités effectuées}
+
+Lors de mon entretien de stage les fondateurs de l'entreprise m'ont indiqué que j'allais utiliser les technologies Ruby et Python. Le sujet était donc de travailler avec le CTO sur la base de données et de coder le back-end de l'importation de données billetteries.
 \\ 
 
-À mon arrivée l'architecture d'une base de données était déjà réalisée. Mais elle n'était pas utilisée et encore moins remplie. J'ai donc du rapidement l'adapter en fonction des premières données billetteries que j'ai reçu et que je devais insérer. Plusieurs stagiaires étaient passés sur la base de données auparavant, certaines tables étaient redondantes (parfois en français et en anglais), certaines autres ne contenaient pas de clés étrangères (juste l'id d'une autre table). J'ai donc au fur et à mesure corrigé tout ça. 
+À mon arrivée l'architecture d'une base de données était déjà réalisée. Mais elle n'était pas utilisée et encore moins remplie. J'ai donc du rapidement l'adapter en fonction des premières données billetteries que j'ai reçue et que je devais insérer. Plusieurs stagiaires avaient géré la base de données auparavant, certaines tables étaient redondantes (parfois en français et en anglais), certaines autres ne contenaient pas de clés étrangères (juste l'id d'une autre table). J'ai donc au fur et à mesure corrigé tout ça.
 
 
 \section{Importation manuel de données billetteries des clients dans ArenaPricing}
 
-L'une de mes premières taches en arrivant dans l'entreprise est de créer un logiciel permettant à Tech4Team et à certains clients de facilement insérer dans notre base de données un fichier CSV\footnote{Comma-separated values, connu sous le sigle CSV, est un format informatique ouvert représentant des données tabulaires sous forme de valeurs séparées par des virgules.} contenant des données billetteries. À terme le but est d'intégrer le logiciel les API des logiciels de billetterie des clients.
+L'une de mes premières tâches en arrivant dans l'entreprise est de créer un logiciel permettant à Tech4Team et à certains clients de facilement insérer dans notre base de données un fichier CSV\footnote{Comma-separated values, connu sous le sigle CSV, est un format informatique ouvert représentant des données tabulaires sous forme de valeurs séparées par des virgules.} contenant des données billetteries. À plus long les fichiers CSV ne doivent plus être utilisés, le but final est d'intégrer les API des logiciels de billetterie des clients afin de pouvoir faire du pseudo temps réel.
 
 \subsection{Le besoin}
 
-Le besoin peut donc être visualisé par le schéma \ref{interface_upload} page \pageref{interface_upload}. Tech4Team ou un client veut insérer des nouveaux tickets dans la base de données Arenapricing. Il sélectionne alors un fichier CSV à la main depuis l'interface web, le site analyse le fichier, extrait les informations importantes et les inserts en base de donnes. Toute la partie d'analyse et d'insertion doit être invisible du point de vue de l'utilisateur.
+Le besoin peut donc être visualisé par le schéma \ref{interface_upload} page \pageref{interface_upload} ou sur le diagramme de cas d'utilisation \ref{arena_pricing_use_case} page \pageref{arena_pricing_use_case}. Tech4Team ou un client veut insérer de nouveaux tickets dans la base de données ArenaPricing. Il sélectionne alors un fichier CSV à la main depuis l'interface web, le site analyse le fichier, extrait les informations importantes et les insère en base de données. Toute la partie d'analyse et d'insertion doit être invisible du point de vue de l'utilisateur.
 \\ \\
 Le logiciel d'upload doit également être capable de s'interfacer avec des API.
 
@@ -23,9 +24,23 @@ Le logiciel d'upload doit également être capable de s'interfacer avec des API.
 \end{center}
 
 
+Le diagramme de cas d'utilisation \ref{arena_pricing_use_case} page \pageref{arena_pricing_use_case} détail les différentes possibilités d'envoie de données pour un utilisateur :
+\begin{itemize}
+	\item[\textbullet] Via un fichier CSV d'export contenant les données billétteries, le client importe envoie ce fichier sur l'interface d'upload du site.
+	\item[\textbullet] Via une API, il peut demander directement le "rapatriement" des données 
+\end{itemize}
+
+
+\begin{center}
+\includegraphics[scale=0.57]{images/arenapricing-use-case.png}
+\captionof{figure}{Diagramme de cas d'utilisation de l'interface d'upload d'ArenaPricing}
+\label{arena_pricing_use_case}
+\end{center}
+
+
 \subsection{Première réalisation du front d'importation}
 
-Pour réaliser ce site web d'importation nous avons décidé après discussion avec le lead developper d'utiliser le langage Python. Ce langage permet de développer rapidement est dispose d'énormément de modules s'ajoutant aux fonctions de base. Il est ainsi aisé de parser un fichier CSV. J'ai également utilisé le microframework Flask pour créer les pages web en elle même et servir de serveur web. Pour le design du site, j'ai utilisé le framework Zurb Foundation afin d'avoir une identité visuelle cohérente. 
+Pour réaliser ce site web d'importation nous avons décidé après discussion avec le lead developper d'utiliser le langage Python. Ce langage permet de développer rapidement et dispose de nombreux modules s'ajoutant aux fonctions de base. Il est ainsi aisé de parser un fichier CSV. J'ai également utilisé le microframework Flask pour créer les pages web en elle même et servir de serveur web. Pour le design du site, j'ai utilisé le framework Zurb Foundation afin d'avoir une identité visuelle cohérente avec le reste du site ArenaMetrix. 
 
 \begin{center}
 \includegraphics[scale=0.6]{images/datafit2.png}
@@ -35,7 +50,7 @@ Pour réaliser ce site web d'importation nous avons décidé après discussion a
 
 \subsubsection{L'interface homme-machine obtenue}
 
-Comme nous pouvons le voir sur l'impression d'écran \ref{front_upload} page \pageref{front_upload} l'interface est permet à l'utilisateur d'envoyer un fichier CSV préalablement sélectionné.
+Comme nous pouvons le voir sur l'impression d'écran \ref{front_upload} page \pageref{front_upload} l'interface permet à l'utilisateur d'envoyer un fichier CSV préalablement sélectionné.
 En plus du nom de l'organisation, nous affichons le type d'événement correspondant au fichier envoyé ainsi que le logiciel de billetterie d'où provient l'export. \\
 
 \begin{center}
@@ -45,12 +60,16 @@ En plus du nom de l'organisation, nous affichons le type d'événement correspon
 \end{center}
 
 \subsubsection{Parsing des données en Python}
-Pour parser les fichiers CSV j'utilise le module natif CSV.
+Pour parser les fichiers CSV j'utilise le module natif CSV. Le principal problème avec les fichier CSV est l'encodage, parfois c'est du UTF-8, d'autres fois du latin1 ou encore du windows-1252. Le module $chardet$ permet de détecter l'encodage d'un fichier.
 \\
 
 
 \lstset{style=custompython}
 \begin{lstlisting}
+f = open(p_path_file, 'rb')
+charset_char = f.read(10000) #read 10000 first characters to detect charset
+f.close()
+charset = chardet.detect(charset_char)
 with open(file_path, 'r', encoding=charset['encoding']) as f:
 
 	#read csv file with csv module
@@ -76,8 +95,7 @@ La fonction open permet d'ouvrir le fichier $file\_path$, ensuite je récupère 
 \label{dict_csv}
 \end{center}
 
-
-D'un point de vue architecture de l'application j'utilise le design pattern strategy. Ce design pattern est utile lors qu'un objet peut effectuer plusieurs traitements différents, dépendant d'une variable ou d'un état.
+D'un point de vue architecture de l'application j'utilise le design pattern strategy. Ce design pattern est utile lorsqu'un objet peut effectuer plusieurs traitements différents, dépendant d'une variable ou d'un état.
 
 L'implémentation de ce design pattern peut être visualisé sur le diagramme figure \ref{stategy_pattern} page \pageref{dict_csv}.
 
@@ -88,19 +106,19 @@ L'implémentation de ce design pattern peut être visualisé sur le diagramme fi
 \end{center}
 
 
-
 \subsubsection{Problèmatique posée par ce logiciel}
-Après avoir testé le logiciel d'importation avec de nombreux clients, il nous apparait que les fichiers fournis ne sont pas génériques. 
-Les noms des colonnes ne sont pas les mêmes en fonction des exports alors que le logiciel de billetterie est identique et dans certains cas le changement apparait pour un même client d'une saison à l'autre. 
+Après avoir testé le logiciel d'importation avec de nombreux clients, il s'avère que les fichiers fournis ne sont pas générique. \\
+Les noms des colonnes ne sont pas les mêmes en fonction des exports alors que le logiciel de billetterie est identique et dans certains cas le changement apparait pour un même client d'une saison à l'autre. \\
 On se rend donc rapidement compte que nous ne pouvons pas créer un script unique par logiciel de billetterie.
-\\ \\
-La partie front en Flask n'est acutelelment plus utilisée, mais le python qui permet de parser les données et utilisé pour les clients qui n'ont pas d'API et qui uploadent donc des fichiers CSV sur un serveur FTP. 
+\\
+
+La partie front en Flask n'est actuellement plus utilisée, mais le python qui permet de parser les données et utilisé pour les clients qui n'ont pas d'API et qui uploadent donc des fichiers CSV sur un serveur FTP. 
 
 
 \subsection{Deuxième itération pour le logiciel d'import des fichiers}
 Nous décidons de repenser notre logiciel pour que le client désirant envoyer un fichier CSV puisse spécifier sur l'interface les champs qu'il souhaite importer.
 
-Comme le montre l'image \ref{draft_front_import2} page \pageref{draft_front_import2} du premier draft que j'ai réalisé, le client doit maintenant faire un travail d'association entre les champs présents dans le fichier CSV leur correspondance réel. 
+Comme le montre l'image \ref{draft_front_import2} page \pageref{draft_front_import2} du premier draft que j'ai réalisé, le client doit maintenant faire un travail d'association entre les champs présents dans le fichier CSV leur correspondance réelle. 
 
 \begin{center}
 \includegraphics[scale=0.55]{images/front3.png}
@@ -110,7 +128,7 @@ Comme le montre l'image \ref{draft_front_import2} page \pageref{draft_front_impo
 
 
 \subsubsection{Création de l'IHM}
-Pour réaliser l'interface d'upload j'ai utilisé le framework Ruby on rails afin pouvoir intégrer facilement la page d'upload au reste du site.
+Pour réaliser l'interface d'upload j'ai utilisé le framework Ruby On Rails afin de pouvoir intégrer facilement et directment la page d'upload au reste du site. Après réflexion, il est plus simple pour nous de maintenir le logiciel principal avec une seule et même technologie : le Ruby. Le Python n'est actuellement utilisé que pour les scripts.
 
 \begin{center}
 \includegraphics[scale=0.37]{images/final_front2.png}
@@ -118,12 +136,12 @@ Pour réaliser l'interface d'upload j'ai utilisé le framework Ruby on rails afi
 \label{final_front_import2}
 \end{center}
 
-J'obtient finalement le front-end \ref{final_front_import2} page \pageref{final_front_import2}, comme nous pouvons le voir avec le fichier CSV de test les champs sont mappés ensemble. Si la donnée n'est pas présente, une insertion vide se fait en base de données. Les champs marqué avec une étoile sont indispensables. Certains champs comme le nom de l'événement et la date peuvent être inscrits à la main s’ils ne sont pas fournis dans le fichier CSV.
+J'obtiens finalement le front-end \ref{final_front_import2} page \pageref{final_front_import2}, comme nous pouvons le voir avec le fichier CSV de test les champs sont mappés ensemble. Si la donnée n'est pas présente, une insertion vide se fait en base de données. Les champs marqués avec une étoile sont indispensables. Certains champs si ils sont uniques à l'import, comme le nom de l'événement et la date peuvent être inscrits à la main s’ils ne sont pas fournis dans le fichier CSV.
 
 
 \subsubsection{L'importation des fichiers CSV}
 
-Afin d'importer les données dans le logiciel de billéterie j'utilise l'ORM ActiveRecord.
+Afin d'importer les données dans le logiciel de billetterie j'utilise l'ORM ActiveRecord.
 
 \lstset{style=customruby}
 \begin{lstlisting}
@@ -149,24 +167,20 @@ city.save\end{lstlisting}
 \leavevmode \
 
 Avant d'insérer une donnée, je vérifie si elle est présente, si ce n'est pas le cas je rescue l'exception et j'insère la donnée. 
-L'ORM ActiveRecord permet de s'astreindre des contraintes habituelles du SQL, lorsque je fais coutry: country lors d'une intention de département l'ORM comprend qu'il doit lier country comme clé étrangère de département.
-
-La majorité des clients nous fournissent des fichiers CSV. Ces fichiers sont extraits à partir du logiciel de billetterie utilisé par le client.
-
+L'ORM ActiveRecord permet de s'astreindre des contraintes habituelles du SQL, lorsque je fais $coutry: country$ lors d'une intention de département l'ORM comprend qu'il doit lier $country$ comme clé étrangère de $département$.
 
 \subsection{Les API des logiciels billetteries}
 Différentes approches pour importer les données sont possibles : 
 \begin{itemize}
   \item[\textbullet] Le client nous donne le login et mot de passe de son logiciel billetterie : nous faisons l'extraction d'un fichier CSV et nous l'importons à la main dans la base de données. 
-  \item[\textbullet] Le client envoie son fichier CSV par mail : nous l'importons à la main dans la base de données.
-  \item[\textbullet] Le client dépose son fichier CSV sur un serveur FTP : un script python est chargé de régulièrement scanner ce serveur FTP est importer les données si il a un changement.
-  \item[\textbullet] La société logiciel billetterie nous donne une clé d'API, ainsi avec le mot de passe et login du client nous pouvons accéder au données en nous connectant directement à la base de données. C'est l'idéal pour nous, cela nous permet d'automatiser les imports.
+  \item[\textbullet] Le client envoie son fichier CSV par mail : nous l'importons à la main dans la base de données (et lui redemandons le fichier si il manque des champs...).
+  \item[\textbullet] Le client dépose son fichier CSV sur un serveur FTP : un script Python est chargé de régulièrement scanner ce serveur FTP et d'importer les données s'il a un changement.
+  \item[\textbullet] La société logiciel billetterie nous donne une clé d'API, ainsi avec le mot de passe et login du client nous pouvons accéder aux données en nous connectant directement à la base de données. C'est l'idéal pour nous, cela nous permet d'automatiser les imports.
 \end{itemize}
 
-Actuellement nous avons accès aux API des billetteries WeezEvent et Njuko. 
-
+Actuellement nous avons accès aux API des billetteries WeezEvent, Njuko et Digitick. 
 Pour récupérer les données des API j'utilise le module request qui permet de faire des requêtes get.
-
+\\ \\
 Ainsi la requête suivante me permet de récupérer les événements d'une organisation :
 
 \lstset{style=custompython}
@@ -176,7 +190,9 @@ json_events = requests.get("https://api.weezevent.com/events",
                                     'access_token': token,
                                     'include_closed': True}
                           )
-event = json_events.json()['events'].pop()
+events = json_events.json()['events']
+for event in events :
+	#Traitemet
 \end{lstlisting}
 \captionof{lstlisting}{Récupération des événements sur l'API de weezevent}
 \leavevmode \
@@ -193,12 +209,27 @@ event = json_events.json()['events'].pop()
   \begin{itemize}
   	\item Marathon de Paris
   \end{itemize}
+  \item[\textbullet] Digitick pour :
+  \begin{itemize}
+  	\item Le musée Grévin
+  \end{itemize}
 
 \end{itemize}
 
 \subsection{La base de données en elle même}
 L'architecture de la base de données ArenaPricing peut être visualisée sur la figure \ref{arenapublic-1} de l'annexe page \pageref{arenapublic-1}.
+\\
+
+Cette base de données de la première forme normale car tous ses attributs de la base de données ont des valeurs simples (non multiples, non composées).
+\\
+
+Elle est également en deuxième forme normale car aucun attribut non clé ne dépend d'une partie de la clé.
+\\
+
+Et de troisième forme normale car aucun attribut non clé ne dépend d'un ou plusieurs attributs ne participant pas à la clé.
 
 
+
+%TODO Parler des formes normales
 
 		

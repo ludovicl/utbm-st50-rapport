@@ -1,8 +1,8 @@
 %!TEX root =/Users/ludovicl/Dropbox/Cours/UTBM/P15/RapportStage/main.tex
 \section{ArenaPublic}
-Le logiciel ArenaPublic à pour but d'être un CRM amélioré, l'utilisateur doit pouvoir au travers de ce logiciel visualiser les données des clients en base de données. 
+Le logiciel ArenaPublic a pour but d'être un CRM amélioré, l'utilisateur doit pouvoir au travers de ce logiciel visualiser les données des clients en base de données. 
 
-À la différence de ArenaPricing où nous nous concentrons sur les tickets vendus, ici c'est le client qui est au centre de la base de données, à terme cette application doit permettre à l'utilisateur d'afficher des données de scoring \footnote{Le scoring (statistique) est un ensemble de méthodes conduisant à un classement d'individus au sein de groupes préalablement définis ou de segmentation.}
+À la différence de ArenaPricing où nous nous concentrons sur les tickets vendus, ici c'est le client qui est au centre de la base de données, à terme cette application doit permettre à l'utilisateur d'afficher des données de scoring \footnote{Le scoring (statistique) est un ensemble de méthodes conduisant à un classement d'individus au sein de groupes préalablement définis ou de segmentation.}.
 
 
 \subsection{Première approche et problème technique}
@@ -15,12 +15,13 @@ Après avoir défini avec les statisticiens un modèle de base de données relat
 \end{center}
 
 
-Comme le montre l'architecture de base de données \ref{arenapublic-1} page \pageref{arenapublic-1} des données comme des écarts types et des moyennes dans les tables Supplier et Purchase information sont calculés. Le problème est qu'il nous faut pouvoir ajouter de nouvelles données facilement en fonction de la demande du client ou du besoin des statisticiens.
+Comme le montre l'architecture de base de données \ref{arenapublic-1} page \pageref{arenapublic-1} des données comme des écarts types et des moyennes dans les tables "Supplier" et "Purchase information" sont calculées à la volé et utilisés par les statisticiens. Le problème est qu'il nous faut pouvoir ajouter de nouvelles données facilement en fonction de la demande du client ou du besoin des statisticiens.
+\\
 
 Nous décidons donc d'utiliser en complément de la base de donnée SQL une base de base de données de type NoSQL \footnote{Not only SQL} qui permet de rajouter des informations "à la volée" sans modifier la structure de la base de données. 
 
 \subsection{Implémentation technique}
-Pour la base de données NoSQL nous voulons quelque chose de simple à mettre d’oeuvre de type clé valeur. Nous utilisons donc le système de base de données décentralisée Riak qui permet de stockés des informations de type clé valeur dans un bucket.
+Pour la base de données NoSQL nous voulions uns solution simple à mettre d’oeuvre de type clé valeur. Nous utilisons donc le système de base de données décentralisée Riak qui permet de stocker des informations de type clé valeur dans un bucket.
 
 \begin{center}
 \includegraphics[scale=0.62]{images/arenapublic-2.png}
@@ -30,7 +31,7 @@ Pour la base de données NoSQL nous voulons quelque chose de simple à mettre d�
 
 Finalement nous obtenons l'architecture de base de données visible en \ref{arenapublic-2} page \pageref{arenapublic-2}.
 
-La clé du Riak est l'adresse mail du client dans la base de données, il s'agit de la seule valeur vraiment indispensable afin de pour identifier les clients de manière unique.
+La clé du Riak est l'adresse mail du client dans la base de données, il s'agit de la seule valeur vraiment indispensable pour identifier les clients de manière unique.
 
 \subsection{Remplissage de la base de données}
 
@@ -39,9 +40,24 @@ Pour remplir la base de données ArenaPublic nous pouvons utiliser deux méthode
   \item[\textbullet] Un front d'upload qui permet d'envoyer un fichier CSV avec les clients abonnés pour une saison spécifique.
   \item[\textbullet] En allant piocher directement dans la base de données ArenaPricing.
   \end{itemize} \
- 
-Pour ma part j'ai essentiellement travailler sur l'agrégation des données depuis ArenaPricing. 
-Pour faire cela j'ai utilisé le langage Python, car il permet de facilement gérer des dictionnaires et de nombreux modules mathématiques sont disponibles pour pour fournir au statisticien des données aussi complètes que possible. Il ne leur reste ainsi qu'à les analyser. 
+  
+\begin{center}
+\includegraphics[scale=0.6]{images/arenapublic-use-case.png}
+\captionof{figure}{Diagramme des cas d'utilisation de ArenaPublic}
+\label{arenapublic_use_case}
+\end{center}
+
+Le diagramme des cas d'utilisation \ref{arenapublic_use_case} page \pageref{arenapublic_use_case} montre les différentes possibilités pour l'utilisateur d'importer des données relatives aux consommateurs afin de les scorer.
+\begin{itemize}
+	\item[\textbullet] Synchronisation des données depuis ArenaPricing 
+	\item[\textbullet] Importation des données depuis un fichier CSV 
+\end{itemize}
+\leavevmode \\
+
+Pour ma part j'ai essentiellement travaillé sur la synchronisation et l'agrégation des données depuis ArenaPricing. 
+\\
+
+Pour faire cela j'ai utilisé le langage Python, car il permet de facilement gérer des dictionnaires et de nombreux modules mathématiques sont disponibles pour pour fournir au statisticien des données aussi complètes que possible. Il ne leur reste ainsi qu'à les analyser.
 
 \begin{center}
 \includegraphics[scale=0.7]{images/public-to-pricing.png}
@@ -50,8 +66,10 @@ Pour faire cela j'ai utilisé le langage Python, car il permet de facilement gé
 \end{center}
 
 Comme le montre la figure \ref{public-to-pricing} page \pageref{public-to-pricing} il est possible pour l'utilisateur d'envoyer ses données au choix depuis un fichier CSV ou en synchronisant les données avec la base de données ArenaPricing. 
+\\
 
-D'un point de vue commercial, la synchronisation des données avec ArenaPricing et ainsi la réalisation d'un CRM à partir de données billéterie est uniquement disponibles pour le client ayant souscrit aux deux offres. 
+La synchronisation des données avec ArenaPricing permet la réalisation d'un CRM à partir de données billéterie, d'un point de vue commercial ArenaPublic est uniquement disponibles pour le client ayant souscrit aux deux offres. 
+\\
 
 Tech4Team propose ainsi deux offres de scoring différentes : 
 
@@ -60,13 +78,13 @@ Tech4Team propose ainsi deux offres de scoring différentes :
   \item[\textbullet] Scoring sur l'achat : pour les clients ayant des données dans ArenaPricing  
 \end{itemize} 
 
-\subsection{Enrichissement des données}
-\subsubsection{Détermination du sexe}
 
-Lors de l'agrégation des données de ArenaPricing dans ArenaPublic en plus de faire les calcules servant aux statisticiens, j'ai enrichi les données disponibles afin d'offrir plus de possibilités au statisticien.
-\\ \\
+
+\subsection{Enrichissement des données}
+Lors de l'agrégation des données de ArenaPricing dans ArenaPublic en plus de faire les calculs servant aux statisticiens, j'ai enrichi les données disponibles afin d'offrir plus de possibilités au statisticien.
+\subsubsection{Détermination du sexe}
 Ajout du sexe de la personne en fonction du prénom lorsque l'information n'est pas disponible :
-Pour réaliser cet enrichissement de données, j'ai utilisé le module 
+our réaliser cet enrichissement de données, j'ai utilisé le module 
 \href{https://github.com/ferhatelmas/sexmachine/}{SexMachine}
 Ce module retourne male, female, mostly\_male, mostly\_female ou andy en fonction du prénom passe en paramètre.
 
@@ -105,21 +123,21 @@ Après plusieurs tests j'utilise l'API de tomtom, car elle me donne les meilleur
 \leavevmode \\
 
 \subsection{Implémentation de bout en bout}
-Pour faire communiquer nos applications de bout en bout nous utilisons \textbf{MessagePack} : il s'agit d'un format de sérialisation binaire qui permet d'échanger des données comme en JSON.
+Pour faire communiquer nos applications de bout en bout nous utilisons MessagePack : il s'agit d'un format de sérialisation binaire qui permet d'échanger des données comme en JSON.
 
 Ainsi, comme le montre le diagramme \ref{scoring} page \pageref{scoring} pour le scoring : 
 
 \begin{itemize}
   \item[\textbullet] Le client demande la synchronisation de sa base de données ticket ArenaPricing en cliquant sur un bouton
-  \item[\textbullet] L'interface (Ruby on Rails) ping une URL d'écoute qui est lancée en Flask depuis DataProc
-  \item[\textbullet] DataProc récupère les données d'ArenaPricing, les agrégés et les enrichies
+  \item[\textbullet] L'interface (Ruby on Rails) lance une requête put une URL d'écoute qui est lancée en Flask depuis DataProc
+  \item[\textbullet] DataProc récupère les données d'ArenaPricing, les agréges et les enrichie
   \item[\textbullet] DataProc enregistre les nouvelles données dans les bases de données PostegreSQL et Riak d'ArenaPublic
   \item[\textbullet] Le client est notifié que les données sont maintenant dans ArenaPublic
   \item[\textbullet] Le client sélectionne les données qu'il veut scorer
   \item[\textbullet] Les données sont récupérées dans la base de données
   \item[\textbullet] Les données sont envoyées au logiciel de scoring écris en Python. Le logiciel de scoring écoute sur une URL grâce à une instance lancée en Flask
   \item[\textbullet] Le logiciel de scoring retourne les données à la WebInterface
-  \item[\textbullet] La WebInterface unpack le MesaagePack et affiche les données associes sous forme de graphiques. 
+  \item[\textbullet] La WebInterface unpack le MesagePack et affiche les données associées sous forme de graphiques. 
  
 
 \end{itemize} 
@@ -132,10 +150,10 @@ Ainsi, comme le montre le diagramme \ref{scoring} page \pageref{scoring} pour le
 
 
 \section{Accueil et encadrement de stagiaires}
-Début juin de nombreux stagiaires ont été recrutés, ces stagiaires étant en première années de l'ETNA je les ai donc managés et encadré d'un point de vue technique :
+Début juin de nombreux stagiaires ont été recrutés, ces stagiaires étant en première années de l'ETNA je les ai donc managés et encadrée d'un point de vue technique :
 \begin{itemize}
 	\item[\textbullet] J'ai notamment eu sous ma responsabilité directe un stagiaire back-end qui a travaillé sur du Python et qui a fait la partie récupération des données exogènes comme la météo et le scrapping de certains sites. 
-	\item[\textbullet] Un autre stagiaire était chargé de faire le front-end de ArenaPublic, j'ai donc direcemnt travaillé avec lui car je m'occupai de la partie Python de ce projet back-end Ruby de ce projet. Je l'ai également aidé pour les requêtes SQL à effectuer.
+	\item[\textbullet] Un autre stagiaire était chargé de faire le front-end de ArenaPublic, j'ai donc direcemnt travaillé avec lui car je m'occupai de la partie Python et back-end Ruby de ce projet. Je l'ai également aidé pour les requêtes SQL à effectuer.
 \end{itemize}
 
   

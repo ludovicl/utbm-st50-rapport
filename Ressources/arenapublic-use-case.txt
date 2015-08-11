@@ -1,0 +1,8 @@
+@startuml
+:Utilisateur: -down- (Ajouter des données a ArenaPublic)
+(Ajouter des données a ArenaPublic) <.down. (Synchroniser les utilisateurs \n via ArenaPricing): <<extend>>
+(Ajouter des données a ArenaPublic) <.down. (Importer les utilisateur \n avec un fichier CSV): <<extend>>
+:Utilisateur: -down- (Demander le scoring des données)
+(Demander le scoring des données) .> (Ajouter des données a ArenaPublic) :<<include>>
+@enduml
+	
