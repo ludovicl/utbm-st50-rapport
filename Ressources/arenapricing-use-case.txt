@@ -1,9 +1,9 @@
 @startuml
-(Importer des données billeterie) <.down. (Via un fichier CSV): <<extend>>
-(Importer des données billeterie) <. (Via une API) : <<extend>>
-(Via une API) .up.> (Implémenter l'API du logiciel de billéterie) : <<include>>
-:Tech4Team: -left- (Implémenter l'API du logiciel de billéterie)
-(Implémenter l'API du logiciel de billéterie) .up.> (Avoir une clé d'API du \n logiciel de billéterie et le login mdp) : <<include>>
-:Utilisateur: - (Importer des données billeterie)
+(Importer des données billetterie) <.down. (Via un fichier CSV): <<extend>>
+(Importer des données billetterie) <. (Via une API) : <<extend>>
+(Via une API) .up.> (Implémenter l'API du logiciel de billetterie) : <<include>>
+:Tech4Team: -left- (Implémenter l'API du logiciel de billetterie)
+(Implémenter l'API du logiciel de billetterie) .up.> (Avoir une clé d'API du \n logiciel de billéterie et le login mdp) : <<include>>
+:Utilisateur: - (Importer des données billetterie)
 @enduml
 	

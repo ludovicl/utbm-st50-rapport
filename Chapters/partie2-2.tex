@@ -1,9 +1,12 @@
 %!TEX root =/Users/ludovicl/Dropbox/Cours/UTBM/P15/RapportStage/main.tex
 \section{ArenaPublic}
 Le logiciel ArenaPublic a pour but d'être un CRM amélioré, l'utilisateur doit pouvoir au travers de ce logiciel visualiser les données des clients en base de données. 
+\\
 
 À la différence de ArenaPricing où nous nous concentrons sur les tickets vendus, ici c'est le client qui est au centre de la base de données, à terme cette application doit permettre à l'utilisateur d'afficher des données de scoring \footnote{Le scoring (statistique) est un ensemble de méthodes conduisant à un classement d'individus au sein de groupes préalablement définis ou de segmentation.}.
+\\
 
+La base de données ArenaPublic est reliée à la base de données ArenaPricing par l'intermédiaire de la base ArenaMetrix. ArenaMetrix est visible en annexe \ref{arenametrix-db} page \pageref{arenametrix-db}, cette base identifie l'utilisateur du site web et gère l'accès aux pages avec la gem TheRole.
 
 \subsection{Première approche et problème technique}
 Après avoir défini avec les statisticiens un modèle de base de données relationnelle que nous pensons générique, nous nous rendons compte qu'il nous faut plus de souplesse sur la structure. En effet, les données à scorer et à afficher peuvent varier d'un utilisateur à l'autre et évoluent en fonction de la demande de l'utilisateur et des statisticiens.
