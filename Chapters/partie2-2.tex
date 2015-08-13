@@ -71,7 +71,7 @@ Pour faire cela j'ai utilisé le langage Python, car il permet de facilement gé
 Comme le montre la figure \ref{public-to-pricing} page \pageref{public-to-pricing} il est possible pour l'utilisateur d'envoyer ses données au choix depuis un fichier CSV ou en synchronisant les données avec la base de données ArenaPricing. 
 \\
 
-La synchronisation des données avec ArenaPricing permet la réalisation d'un CRM à partir de données billéterie, d'un point de vue commercial ArenaPublic est uniquement disponibles pour le client ayant souscrit aux deux offres. 
+La synchronisation des données avec ArenaPricing permet la réalisation d'un CRM à partir de données billetterie, d'un point de vue commercial ArenaPublic est uniquement disponibles pour le client ayant souscrit aux deux offres. 
 \\
 
 Tech4Team propose ainsi deux offres de scoring différentes : 
@@ -86,9 +86,8 @@ Tech4Team propose ainsi deux offres de scoring différentes :
 \subsection{Enrichissement des données}
 Lors de l'agrégation des données de ArenaPricing dans ArenaPublic en plus de faire les calculs servant aux statisticiens, j'ai enrichi les données disponibles afin d'offrir plus de possibilités au statisticien.
 \subsubsection{Détermination du sexe}
-Ajout du sexe de la personne en fonction du prénom lorsque l'information n'est pas disponible :
-our réaliser cet enrichissement de données, j'ai utilisé le module 
-\href{https://github.com/ferhatelmas/sexmachine/}{SexMachine}
+Ajout du sexe de la personne en fonction du prénom lorsque l'information n'est pas disponible : pour réaliser cet enrichissement de données, j'ai utilisé le module 
+\href{https://github.com/ferhatelmas/sexmachine/}{SexMachine}.
 Ce module retourne male, female, mostly\_male, mostly\_female ou andy en fonction du prénom passe en paramètre.
 
 \lstset{style=custompython}
@@ -156,7 +155,7 @@ Ainsi, comme le montre le diagramme \ref{scoring} page \pageref{scoring} pour le
 Début juin de nombreux stagiaires ont été recrutés, ces stagiaires étant en première années de l'ETNA je les ai donc managés et encadrée d'un point de vue technique :
 \begin{itemize}
 	\item[\textbullet] J'ai notamment eu sous ma responsabilité directe un stagiaire back-end qui a travaillé sur du Python et qui a fait la partie récupération des données exogènes comme la météo et le scrapping de certains sites. 
-	\item[\textbullet] Un autre stagiaire était chargé de faire le front-end de ArenaPublic, j'ai donc direcemnt travaillé avec lui car je m'occupai de la partie Python et back-end Ruby de ce projet. Je l'ai également aidé pour les requêtes SQL à effectuer.
+	\item[\textbullet] Un autre stagiaire était chargé de faire le front-end de ArenaPublic, j'ai donc directement travaillé avec lui car je m'occupai de la partie Python et back-end Ruby de ce projet. Je l'ai également aidé pour les requêtes SQL à effectuer.
 \end{itemize}
 
   
